@@ -1,4 +1,7 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
@@ -10,10 +13,22 @@ class ToDoList extends StatefulWidget {
 }
 
 class _ToDoListState extends State<ToDoList> {
-  List<String> _text = ["test1", "test2", "test3"];
-  Widget getTextWidgets(List<String> strings)
-  {
-    return Column(children: strings.map((item) => 
+
+  var tasksBox = Hive.openBox('tasks');
+
+  late List<String> _tasks;
+
+  @override
+  void initState() {
+    _tasks = [];
+    super.initState();
+  }
+  Future<List<String>> getTasks() async{
+    _tasks = (await tasksBox).get('taskList');
+    return _tasks;
+  }
+  Widget getTextWidgets() {
+    return Column(children: _tasks.map((item) => 
       Container(
         height: 50,
         width: 350,
@@ -37,10 +52,11 @@ class _ToDoListState extends State<ToDoList> {
       )
     )).toList());
   }  
-  void _addText(){
+  void _addText() async {
     setState(() {
-      _text.add(_inputTaskController.text);
+      _tasks.add(_inputTaskController.text);
     });
+    (await tasksBox).add(_inputTaskController.text);
   }
 
   final _inputTaskController = TextEditingController();  
@@ -65,7 +81,12 @@ class _ToDoListState extends State<ToDoList> {
                   child:const Icon(Icons.add_rounded),
                 )
             ],),
-            getTextWidgets(_text)
+            FutureBuilder<List<String>>(
+              future:getTasks(),
+              builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                return getTextWidgets();
+              },
+            )
           ]
         )
       )
