@@ -37,38 +37,45 @@ class _ToDoListState extends State<ToDoList> {
       );
     } else {
 
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 24),
-          SizedBox(
-            height:300,
-            child: ListView.builder(
-              padding: const EdgeInsets.all(8),
-              itemCount: tasks.length,
-              itemBuilder: (BuildContext context, int index) {
-                final task = tasks[index];
-
-                return Card(
-                  color:Colors.white,
-                  child:ExpansionTile(
-                    tilePadding: const EdgeInsets.symmetric(horizontal: 24,vertical:8),                  
-                    title: Text(
-                      task.title,
-                      maxLines: 2,
-                      style: const TextStyle(fontWeight:FontWeight.bold,fontSize: 18)
+      return Flexible(
+        child:ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemCount: tasks.length,
+          itemBuilder: (BuildContext context, int index) {
+            final task = tasks[index];
+            return Column(
+              children:[
+                ListTile(
+                  leading: Icon(Icons.checklist_rounded),
+                  title:Text(task.title),
+                  subtitle:Text(task.deadline.toString())
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children:[
+                    const SizedBox(width:5),
+                    TextButton(
+                      onPressed: () => {_removeTask(task)},
+                      child: const Text('delete'),
                     ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+                    TextButton(
+                      onPressed: (){print("Work on deleteing the actual tasks mao");},
+                      child: const Text('finished'),),
+                    ],
+                )
+              ] 
+            );
+          },
+        )
       );
     }
   }
 
-  Future _addText() async {
+  Future _removeTask(Task task) async {
+    final taskBox = ToDoBoxes.getTasks();
+    taskBox.delete(task.key);
+  }
+  Future _addTask() async {
     final task = Task()
     ..title = _inputTaskController.text
     ..deadline = DateTime(2023,2,23);
@@ -85,7 +92,7 @@ class _ToDoListState extends State<ToDoList> {
   Widget build(BuildContext context) {
     return Scaffold(
       body:(
-        ListView(
+        Column(
           children:[
             Row(
               mainAxisSize: MainAxisSize.max,
@@ -96,10 +103,11 @@ class _ToDoListState extends State<ToDoList> {
                   )
                 ),
                 ElevatedButton(
-                  onPressed: _addText,
+                  onPressed: _addTask,
                   child:const Icon(Icons.add_rounded),
                 )
-            ],),
+              ],
+            ),
             ValueListenableBuilder(
               valueListenable: ToDoBoxes.getTasks().listenable(),
               builder: (BuildContext context, box, _) {

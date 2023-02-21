@@ -21,6 +21,7 @@ class _MuniMuniState extends State<MuniMuni> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder> {
         '/': (BuildContext context) {
           return const ToDoList();
