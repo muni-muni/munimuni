@@ -2,8 +2,12 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:munimuni/todo/ToDoBoxes.dart';
+
+import '../models/task.dart';
 
 class ToDoList extends StatefulWidget {
   const ToDoList({super.key});
@@ -14,49 +18,64 @@ class ToDoList extends StatefulWidget {
 
 class _ToDoListState extends State<ToDoList> {
 
-  var tasksBox = Hive.openBox('tasks');
+  late BoxCollection collection; 
+  late CollectionBox tasksBox; 
 
-  late List<String> _tasks;
 
-  @override
-  void initState() {
-    _tasks = [];
-    super.initState();
+  @override 
+  void dispose(){
+    Hive.close;
+    super.dispose();
   }
-  Future<List<String>> getTasks() async{
-    _tasks = (await tasksBox).get('taskList');
-    return _tasks;
-  }
-  Widget getTextWidgets() {
-    return Column(children: _tasks.map((item) => 
-      Container(
-        height: 50,
-        width: 350,
-        decoration: BoxDecoration(
-          color: Colors.green[500],
-          border: Border.all(width:1, color: Colors.grey),
-          borderRadius: BorderRadius.circular(12)    
+  Widget buildContent(List<Task> tasks){
+    if (tasks.isEmpty) {
+      return const Center(
+        child: Text(
+          'No expenses yet!',
+          style: TextStyle(fontSize: 24),
         ),
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child:
-          Padding(
-            padding:EdgeInsets.all(8.0),
-            child: Text(item,
-            style: TextStyle(
-              fontSize: 20,
-              color:Colors.grey[900],              
-            )
-          )
-        )
-      )
-    )).toList());
-  }  
-  void _addText() async {
-    setState(() {
-      _tasks.add(_inputTaskController.text);
-    });
-    (await tasksBox).add(_inputTaskController.text);
+      );
+    } else {
+
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 24),
+          SizedBox(
+            height:300,
+            child: ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: tasks.length,
+              itemBuilder: (BuildContext context, int index) {
+                final task = tasks[index];
+
+                return Card(
+                  color:Colors.white,
+                  child:ExpansionTile(
+                    tilePadding: const EdgeInsets.symmetric(horizontal: 24,vertical:8),                  
+                    title: Text(
+                      task.title,
+                      maxLines: 2,
+                      style: const TextStyle(fontWeight:FontWeight.bold,fontSize: 18)
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      );
+    }
+  }
+
+  Future _addText() async {
+    final task = Task()
+    ..title = _inputTaskController.text
+    ..deadline = DateTime(2023,2,23);
+
+
+    final taskBox = ToDoBoxes.getTasks();
+    taskBox.add(task);
   }
 
   final _inputTaskController = TextEditingController();  
@@ -81,12 +100,13 @@ class _ToDoListState extends State<ToDoList> {
                   child:const Icon(Icons.add_rounded),
                 )
             ],),
-            FutureBuilder<List<String>>(
-              future:getTasks(),
-              builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-                return getTextWidgets();
-              },
-            )
+            ValueListenableBuilder(
+              valueListenable: ToDoBoxes.getTasks().listenable(),
+              builder: (BuildContext context, box, _) {
+                final tasks = box.values.toList().cast<Task>();
+                return buildContent(tasks);
+              }
+             )
           ]
         )
       )
