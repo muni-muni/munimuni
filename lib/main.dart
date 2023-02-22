@@ -24,7 +24,28 @@ class _MuniMuniState extends State<MuniMuni> {
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder> {
         '/': (BuildContext context) {
-          return const ToDoList();
+          return Scaffold(
+           appBar:AppBar(
+
+           ),
+          body: const ToDoList(), 
+          bottomNavigationBar: BottomNavigationBar(
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home'
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.cases),
+                  label: 'Projects'
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile'
+                )
+              ]
+            ),
+          );
         },
         '/projects': (BuildContext context ){
           return Scaffold(

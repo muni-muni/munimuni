@@ -90,9 +90,7 @@ class _ToDoListState extends State<ToDoList> {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:(
-        Column(
+    return Column(
           children:[
             Row(
               mainAxisSize: MainAxisSize.max,
@@ -116,9 +114,6 @@ class _ToDoListState extends State<ToDoList> {
               }
              )
           ]
-        )
-      )
-    )
-      ;
+        );
   }
 }
