@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:munimuni/models/task.dart';
-import 'package:munimuni/todo/ToDoList.dart';
+import 'package:munimuni/Router.dart';
 //Goal for today:
 /// 1. Create a todo-list
 /// 2. Save data in browser/local cache
@@ -17,53 +16,17 @@ class MuniMuni extends StatefulWidget {
 }
 
 class _MuniMuniState extends State<MuniMuni> {
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: <String, WidgetBuilder> {
-        '/': (BuildContext context) {
-          return Scaffold(
-           appBar:AppBar(
-
-           ),
-          body: const ToDoList(), 
-          bottomNavigationBar: BottomNavigationBar(
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Home'
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.cases),
-                  label: 'Projects'
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: 'Profile'
-                )
-              ]
-            ),
-          );
-        },
-        '/projects': (BuildContext context ){
-          return Scaffold(
-            appBar: AppBar(
-              title:const Text("test home")
-            ),    
-          );
-        }
-      }
-    );
+    return MaterialApp.router(routerConfig: router);
   }
 }
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  Hive.registerAdapter(TaskAdapter()); 
+  Hive.registerAdapter(TaskAdapter());
   await Hive.openBox<Task>('taskList');
 
   runApp(const MuniMuni());
 }
-
