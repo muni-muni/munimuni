@@ -6,8 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:munimuni/Box/ToDoBoxes.dart';
-
-import '../models/task.dart';
+import 'package:munimuni/models/task.dart';
 
 class ToDoList extends StatefulWidget {
   const ToDoList({super.key});

@@ -18,7 +18,10 @@ class MuniMuni extends StatefulWidget {
 class _MuniMuniState extends State<MuniMuni> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(routerConfig: router);
+    return MaterialApp.router(
+      routerConfig: router,
+      debugShowCheckedModeBanner: false,
+    );
   }
 }
 

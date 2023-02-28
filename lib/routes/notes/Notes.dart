@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:munimuni/tasks/ToDoList.dart';
+import 'package:munimuni/routes/tasks/ToDoList.dart';
 import 'package:munimuni/components/BottomNavigationBar.dart';
-import 'package:munimuni/notes/NoteList.dart';
-
+import 'package:munimuni/routes/notes/NoteList.dart';
+import 'package:munimuni/components/AppBar.dart';
 class Note extends StatefulWidget {
   const Note({super.key});
 
@@ -13,10 +13,12 @@ class Note extends StatefulWidget {
 class _NoteState extends State<Note> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: const NoteList(),
-      bottomNavigationBar: const CustomBottomNavBar(),
+    return const Scaffold(
+      appBar: PreferredSize(
+            preferredSize: Size.fromHeight(40),
+            child:CustomAppBar()),
+      body: NoteList(),
+      bottomNavigationBar: CustomBottomNavBar(),
     );
   }
 }

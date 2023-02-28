@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/task.dart';
+import '../../models/task.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/src/widgets/framework.dart';

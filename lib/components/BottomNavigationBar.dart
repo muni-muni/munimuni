@@ -27,7 +27,12 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
         ), 
         label: 'Note',
         ),
-      BottomNavigationBarItem(icon: Icon(Icons.cases), label: 'Projects')
+      BottomNavigationBarItem(
+        icon: IconButton(
+          icon: const Icon(Icons.checklist),
+          onPressed: () => context.push('/tasks'),
+        ), 
+        label: 'Tasks')
     ]);
   }
 }
