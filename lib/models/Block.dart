@@ -1,12 +1,12 @@
 import 'package:isar/isar.dart';
 
-part 'Page.g.dart';
+part 'Block.g.dart';
+
 @collection
-class Page {
+class Block {
   Id id = Isar.autoIncrement;
   String? uid;
   String? title;
-  String? icon;
-  String? coverPhoto;
-  List<String>? blocks;
+  String? blockType;
+  String? content; 
 }
