@@ -1,11 +1,51 @@
-import 'dart:core';
+import 'package:flutter/material.dart';
+class NoteList extends StatefulWidget {
+  const NoteList({super.key});
+
+  @override
+  State<NoteList> createState() => _NoteListState();
+}
+
+class _NoteListState extends State<NoteList> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+          children:[
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller:  _inputTaskController,
+                  )
+                ),
+                ElevatedButton(
+                  onPressed: _addTask,
+                  child:const Icon(Icons.add_rounded),
+                )
+              ],
+            ),
+            ValueListenableBuilder(
+              valueListenable: ToDoBoxes.getTasks().listenable(),
+              builder: (BuildContext context, box, _) {
+                final tasks = box.values.toList().cast<Task>();
+                return buildContent(tasks);
+              }
+             )
+          ]
+        );
+  }
+}
+
+/**
+ * import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:munimuni/todo/ToDoBoxes.dart';
+import 'package:munimuni/Box/ToDoBoxes.dart';
 
 import '../models/task.dart';
 
@@ -117,3 +157,4 @@ class _ToDoListState extends State<ToDoList> {
         );
   }
 }
+ */

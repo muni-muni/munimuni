@@ -1,7 +1,7 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
-import 'package:munimuni/todo/ToDoList.dart';
+import 'package:munimuni/tasks/ToDoList.dart';
 class Task extends StatefulWidget {
   const Task({super.key});
 

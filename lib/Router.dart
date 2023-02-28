@@ -1,17 +1,17 @@
 import 'package:go_router/go_router.dart';
 import 'package:munimuni/tasks/Tasks.dart';
+import 'package:munimuni/notes/Notes.dart';
+
 // GoRouter configuration
 final router = GoRouter(
   routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const Task(),
-    ),
+    GoRoute(path: '/', builder: (context, state) => const Task()),
+    GoRoute(path: '/notes', builder: (context, state) => const Note())
   ],
 );
 
 /**
- * 
+ *
  * 
 
       
