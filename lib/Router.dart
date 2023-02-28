@@ -1,12 +1,31 @@
 import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 import 'package:munimuni/tasks/Tasks.dart';
 import 'package:munimuni/notes/Notes.dart';
 
 // GoRouter configuration
 final router = GoRouter(
   routes: [
-    GoRoute(path: '/', builder: (context, state) => const Task()),
-    GoRoute(path: '/notes', builder: (context, state) => const Note())
+    GoRoute(
+      path: '/',
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        restorationId: state.pageKey.value,
+        child: const Task(),
+        transitionsBuilder: (context,animation,secondaryAnimation, child) => 
+          FadeTransition(opacity:animation, child:child)
+      )
+    ),
+    GoRoute(
+      path: '/notes',
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        restorationId: state.pageKey.value,
+        child: const Note(),
+        transitionsBuilder: (context,animation,secondaryAnimation, child) => 
+          FadeTransition(opacity:animation, child:child)
+      )
+    )
   ],
 );
 
