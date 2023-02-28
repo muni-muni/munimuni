@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:munimuni/routes/tasks/ToDoList.dart';
-import 'package:munimuni/components/BottomNavigationBar.dart';
+import 'package:munimuni/components/system/BottomNavigationBar.dart';
 import 'package:munimuni/routes/notes/NoteList.dart';
-import 'package:munimuni/components/AppBar.dart';
+import 'package:munimuni/components/system/AppBar.dart';
 class Note extends StatefulWidget {
   const Note({super.key});
 
