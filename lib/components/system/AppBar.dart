@@ -17,7 +17,4 @@ class _CustomAppBarState extends State<CustomAppBar> {
         onPressed: () => {print("testing")},
         ),);
   }
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
-
 }
