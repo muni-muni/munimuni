@@ -14,7 +14,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
     return AppBar(
       leading: IconButton(
         icon:const Icon(Icons.menu_rounded),
-        onPressed: () => {print("testing")},
+        onPressed: () => {
+          Scaffold.of(context).openDrawer()
+        },
         ),);
   }
 }

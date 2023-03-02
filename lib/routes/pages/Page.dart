@@ -11,11 +11,19 @@ class PageView extends StatefulWidget {
 class _PageViewState extends State<PageView> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: PreferredSize(
+    return Scaffold(
+      appBar: const PreferredSize(
         preferredSize:Size.fromHeight(30),
         child: CustomAppBar(), 
       ),
+      drawer:Drawer(child: 
+        Container(
+          child:const Text("Test DRawer")
+        ),
+      ),
+      body: Container(
+        child: const Text('Hello')
+        )
     );
   }
 }
