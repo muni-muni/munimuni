@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:munimuni/components/system/AppBar.dart';
+import 'package:munimuni/components/system/app_bar.dart';
 
 class PageView extends StatefulWidget {
   const PageView({super.key});
@@ -9,6 +9,8 @@ class PageView extends StatefulWidget {
 }
 
 class _PageViewState extends State<PageView> {
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,8 +23,8 @@ class _PageViewState extends State<PageView> {
           child:const Text("Test DRawer")
         ),
       ),
-      body: Container(
-        child: const Text('Hello')
+      body: Column(
+        children: [],
         )
     );
   }

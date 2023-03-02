@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:munimuni/components/system/AppBar.dart';
+import 'package:munimuni/components/system/app_bar.dart';
 
 class Workspace extends StatefulWidget {
   const Workspace({super.key});

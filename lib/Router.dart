@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
-import 'package:munimuni/routes/pages/Page.dart' as page;
+import 'package:munimuni/routes/pages/page.dart' as page;
 import 'package:munimuni/routes/workspaces/Workspace.dart';
 
 
