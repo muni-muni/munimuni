@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:munimuni/components/block/block.dart';
 import 'package:munimuni/components/system/app_bar.dart';
 
 class PageView extends StatefulWidget {
@@ -20,11 +21,13 @@ class _PageViewState extends State<PageView> {
       ),
       drawer:Drawer(child: 
         Container(
-          child:const Text("Test DRawer")
+          child:const Text("Test DRawer drawer drawer")
         ),
       ),
       body: Column(
-        children: [],
+        children: [
+          Block()
+        ],
         )
     );
   }
