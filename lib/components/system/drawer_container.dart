@@ -36,8 +36,14 @@ class _DrawerChildState extends State<DrawerChild> {
           ),
           Row(
             children: [
-              Text("Pages",
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500)),
+              const Text(
+                "Pages",
+                style: 
+                  TextStyle(
+                    fontSize: 32, 
+                    fontWeight: FontWeight.w500,
+                  )
+                ),
               const SizedBox(width: 50),
               IconButton(
                   onPressed: () => {print("hello world")},

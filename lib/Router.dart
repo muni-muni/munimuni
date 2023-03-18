@@ -3,32 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:munimuni/routes/pages/page.dart' as page;
 import 'package:munimuni/routes/workspaces/Workspace.dart';
 
-
+bool hasAccount = true;
+bool hasGuestCode = true;
+bool hasWorkspace = true;
 // GoRouter configuration
 final router = GoRouter(
   routes: [
     GoRoute(
-      path: '/',
-      redirect: (context, state) {
-        if (1 + 1 == 2){
-          return '/page';
-        }
-        else{
-          return '/notes';
-        }
-      }
-    ),
+        path: '/',
+        redirect: (context, state) {
+          if (!hasAccount && !hasGuestCode) {
+            return '/createAccount';
+          }
+          if (hasWorkspace) {
+            return '/page';
+          }
+        }),
     GoRoute(
-      path: '/page',
+        path: '/page',
         pageBuilder: (context, state) => CustomTransitionPage<void>(
             key: state.pageKey,
             restorationId: state.pageKey.value,
             child: const page.PageView(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
-                    FadeTransition(opacity: animation, child: child)
-          )
-    ),
+                    FadeTransition(opacity: animation, child: child))),
     GoRoute(
         path: '/notes',
         pageBuilder: (context, state) => CustomTransitionPage<void>(
@@ -39,7 +38,7 @@ final router = GoRouter(
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(opacity: animation, child: child))),
     GoRoute(
-        path: '/tasks',
+        path: '/createAccount',
         pageBuilder: (context, state) => CustomTransitionPage<void>(
             key: state.pageKey,
             restorationId: state.pageKey.value,
