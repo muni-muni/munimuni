@@ -25,7 +25,8 @@ class _PageViewState extends State<PageView> {
       ),
       body: Column(
         children: [
-          Block()
+          Block(),
+          
         ],
         )
     );

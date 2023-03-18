@@ -1,6 +1,7 @@
 import 'package:isar/isar.dart';
-
+import 'Page.dart';
 part 'Workspace.g.dart';
+
 @collection
 class Workspace {
   Id id = Isar.autoIncrement;
@@ -8,5 +9,5 @@ class Workspace {
   String? title;
   String? blockType;
   String? content;
-  List<String>? pages;
+  final pages = IsarLinks<Page>();
 }

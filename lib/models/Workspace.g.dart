@@ -27,18 +27,13 @@ const WorkspaceSchema = CollectionSchema(
       name: r'content',
       type: IsarType.string,
     ),
-    r'pages': PropertySchema(
-      id: 2,
-      name: r'pages',
-      type: IsarType.stringList,
-    ),
     r'title': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'title',
       type: IsarType.string,
     ),
     r'uid': PropertySchema(
-      id: 4,
+      id: 3,
       name: r'uid',
       type: IsarType.string,
     )
@@ -49,7 +44,14 @@ const WorkspaceSchema = CollectionSchema(
   deserializeProp: _workspaceDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {},
+  links: {
+    r'pages': LinkSchema(
+      id: 8399001788648161008,
+      name: r'pages',
+      target: r'Page',
+      single: false,
+    )
+  },
   embeddedSchemas: {},
   getId: _workspaceGetId,
   getLinks: _workspaceGetLinks,
@@ -76,18 +78,6 @@ int _workspaceEstimateSize(
     }
   }
   {
-    final list = object.pages;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount += value.length * 3;
-        }
-      }
-    }
-  }
-  {
     final value = object.title;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -110,9 +100,8 @@ void _workspaceSerialize(
 ) {
   writer.writeString(offsets[0], object.blockType);
   writer.writeString(offsets[1], object.content);
-  writer.writeStringList(offsets[2], object.pages);
-  writer.writeString(offsets[3], object.title);
-  writer.writeString(offsets[4], object.uid);
+  writer.writeString(offsets[2], object.title);
+  writer.writeString(offsets[3], object.uid);
 }
 
 Workspace _workspaceDeserialize(
@@ -125,9 +114,8 @@ Workspace _workspaceDeserialize(
   object.blockType = reader.readStringOrNull(offsets[0]);
   object.content = reader.readStringOrNull(offsets[1]);
   object.id = id;
-  object.pages = reader.readStringList(offsets[2]);
-  object.title = reader.readStringOrNull(offsets[3]);
-  object.uid = reader.readStringOrNull(offsets[4]);
+  object.title = reader.readStringOrNull(offsets[2]);
+  object.uid = reader.readStringOrNull(offsets[3]);
   return object;
 }
 
@@ -143,10 +131,8 @@ P _workspaceDeserializeProp<P>(
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readStringList(offset)) as P;
-    case 3:
       return (reader.readStringOrNull(offset)) as P;
-    case 4:
+    case 3:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -158,11 +144,12 @@ Id _workspaceGetId(Workspace object) {
 }
 
 List<IsarLinkBase<dynamic>> _workspaceGetLinks(Workspace object) {
-  return [];
+  return [object.pages];
 }
 
 void _workspaceAttach(IsarCollection<dynamic> col, Id id, Workspace object) {
   object.id = id;
+  object.pages.attach(col, col.isar.collection<Page>(), r'pages', id);
 }
 
 extension WorkspaceQueryWhereSort
@@ -593,242 +580,6 @@ extension WorkspaceQueryFilter
     });
   }
 
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'pages',
-      ));
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'pages',
-      ));
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'pages',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition>
-      pagesElementGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'pages',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition>
-      pagesElementLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'pages',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesElementBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'pages',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition>
-      pagesElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'pages',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition>
-      pagesElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'pages',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition>
-      pagesElementContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'pages',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesElementMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'pages',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition>
-      pagesElementIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'pages',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition>
-      pagesElementIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'pages',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'pages',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'pages',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'pages',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'pages',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition>
-      pagesLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'pages',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'pages',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
-    });
-  }
-
   QueryBuilder<Workspace, Workspace, QAfterFilterCondition> titleIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1126,7 +877,64 @@ extension WorkspaceQueryObject
     on QueryBuilder<Workspace, Workspace, QFilterCondition> {}
 
 extension WorkspaceQueryLinks
-    on QueryBuilder<Workspace, Workspace, QFilterCondition> {}
+    on QueryBuilder<Workspace, Workspace, QFilterCondition> {
+  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pages(
+      FilterQuery<Page> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'pages');
+    });
+  }
+
+  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'pages', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'pages', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'pages', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'pages', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Workspace, Workspace, QAfterFilterCondition>
+      pagesLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'pages', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<Workspace, Workspace, QAfterFilterCondition> pagesLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'pages', lower, includeLower, upper, includeUpper);
+    });
+  }
+}
 
 extension WorkspaceQuerySortBy on QueryBuilder<Workspace, Workspace, QSortBy> {
   QueryBuilder<Workspace, Workspace, QAfterSortBy> sortByBlockType() {
@@ -1257,12 +1065,6 @@ extension WorkspaceQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Workspace, Workspace, QDistinct> distinctByPages() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'pages');
-    });
-  }
-
   QueryBuilder<Workspace, Workspace, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1295,12 +1097,6 @@ extension WorkspaceQueryProperty
   QueryBuilder<Workspace, String?, QQueryOperations> contentProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'content');
-    });
-  }
-
-  QueryBuilder<Workspace, List<String>?, QQueryOperations> pagesProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'pages');
     });
   }
 

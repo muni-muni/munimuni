@@ -17,28 +17,23 @@ const PageSchema = CollectionSchema(
   name: r'Page',
   id: 7712851405970962877,
   properties: {
-    r'blocks': PropertySchema(
-      id: 0,
-      name: r'blocks',
-      type: IsarType.stringList,
-    ),
     r'coverPhoto': PropertySchema(
-      id: 1,
+      id: 0,
       name: r'coverPhoto',
       type: IsarType.string,
     ),
     r'icon': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'icon',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'title',
       type: IsarType.string,
     ),
     r'uid': PropertySchema(
-      id: 4,
+      id: 3,
       name: r'uid',
       type: IsarType.string,
     )
@@ -49,7 +44,14 @@ const PageSchema = CollectionSchema(
   deserializeProp: _pageDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {},
+  links: {
+    r'blocks': LinkSchema(
+      id: -4644325328853457294,
+      name: r'blocks',
+      target: r'Block',
+      single: false,
+    )
+  },
   embeddedSchemas: {},
   getId: _pageGetId,
   getLinks: _pageGetLinks,
@@ -63,18 +65,6 @@ int _pageEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final list = object.blocks;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount += value.length * 3;
-        }
-      }
-    }
-  }
   {
     final value = object.coverPhoto;
     if (value != null) {
@@ -108,11 +98,10 @@ void _pageSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeStringList(offsets[0], object.blocks);
-  writer.writeString(offsets[1], object.coverPhoto);
-  writer.writeString(offsets[2], object.icon);
-  writer.writeString(offsets[3], object.title);
-  writer.writeString(offsets[4], object.uid);
+  writer.writeString(offsets[0], object.coverPhoto);
+  writer.writeString(offsets[1], object.icon);
+  writer.writeString(offsets[2], object.title);
+  writer.writeString(offsets[3], object.uid);
 }
 
 Page _pageDeserialize(
@@ -122,12 +111,11 @@ Page _pageDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Page();
-  object.blocks = reader.readStringList(offsets[0]);
-  object.coverPhoto = reader.readStringOrNull(offsets[1]);
-  object.icon = reader.readStringOrNull(offsets[2]);
+  object.coverPhoto = reader.readStringOrNull(offsets[0]);
+  object.icon = reader.readStringOrNull(offsets[1]);
   object.id = id;
-  object.title = reader.readStringOrNull(offsets[3]);
-  object.uid = reader.readStringOrNull(offsets[4]);
+  object.title = reader.readStringOrNull(offsets[2]);
+  object.uid = reader.readStringOrNull(offsets[3]);
   return object;
 }
 
@@ -139,14 +127,12 @@ P _pageDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringList(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
-      return (reader.readStringOrNull(offset)) as P;
-    case 4:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -158,11 +144,12 @@ Id _pageGetId(Page object) {
 }
 
 List<IsarLinkBase<dynamic>> _pageGetLinks(Page object) {
-  return [];
+  return [object.blocks];
 }
 
 void _pageAttach(IsarCollection<dynamic> col, Id id, Page object) {
   object.id = id;
+  object.blocks.attach(col, col.isar.collection<Block>(), r'blocks', id);
 }
 
 extension PageQueryWhereSort on QueryBuilder<Page, Page, QWhere> {
@@ -241,236 +228,6 @@ extension PageQueryWhere on QueryBuilder<Page, Page, QWhereClause> {
 }
 
 extension PageQueryFilter on QueryBuilder<Page, Page, QFilterCondition> {
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'blocks',
-      ));
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'blocks',
-      ));
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'blocks',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksElementGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'blocks',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksElementLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'blocks',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksElementBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'blocks',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'blocks',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'blocks',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksElementContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'blocks',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksElementMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'blocks',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksElementIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'blocks',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksElementIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'blocks',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'blocks',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'blocks',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'blocks',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'blocks',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'blocks',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Page, Page, QAfterFilterCondition> blocksLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'blocks',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
-    });
-  }
-
   QueryBuilder<Page, Page, QAfterFilterCondition> coverPhotoIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1104,7 +861,62 @@ extension PageQueryFilter on QueryBuilder<Page, Page, QFilterCondition> {
 
 extension PageQueryObject on QueryBuilder<Page, Page, QFilterCondition> {}
 
-extension PageQueryLinks on QueryBuilder<Page, Page, QFilterCondition> {}
+extension PageQueryLinks on QueryBuilder<Page, Page, QFilterCondition> {
+  QueryBuilder<Page, Page, QAfterFilterCondition> blocks(FilterQuery<Block> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'blocks');
+    });
+  }
+
+  QueryBuilder<Page, Page, QAfterFilterCondition> blocksLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'blocks', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<Page, Page, QAfterFilterCondition> blocksIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'blocks', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Page, Page, QAfterFilterCondition> blocksIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'blocks', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Page, Page, QAfterFilterCondition> blocksLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'blocks', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Page, Page, QAfterFilterCondition> blocksLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'blocks', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<Page, Page, QAfterFilterCondition> blocksLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'blocks', lower, includeLower, upper, includeUpper);
+    });
+  }
+}
 
 extension PageQuerySortBy on QueryBuilder<Page, Page, QSortBy> {
   QueryBuilder<Page, Page, QAfterSortBy> sortByCoverPhoto() {
@@ -1219,12 +1031,6 @@ extension PageQuerySortThenBy on QueryBuilder<Page, Page, QSortThenBy> {
 }
 
 extension PageQueryWhereDistinct on QueryBuilder<Page, Page, QDistinct> {
-  QueryBuilder<Page, Page, QDistinct> distinctByBlocks() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'blocks');
-    });
-  }
-
   QueryBuilder<Page, Page, QDistinct> distinctByCoverPhoto(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1258,12 +1064,6 @@ extension PageQueryProperty on QueryBuilder<Page, Page, QQueryProperty> {
   QueryBuilder<Page, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
-    });
-  }
-
-  QueryBuilder<Page, List<String>?, QQueryOperations> blocksProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'blocks');
     });
   }
 

@@ -2,22 +2,30 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:munimuni/routes/pages/page.dart' as page;
 import 'package:munimuni/routes/workspaces/Workspace.dart';
-
+import 'package:munimuni/isar_service.dart';
 bool hasAccount = true;
 bool hasGuestCode = true;
-bool hasWorkspace = true;
+final service = IsarService();
+
+void createWorkspace() {
+  
+}
+
+void createPage() {}
 // GoRouter configuration
 final router = GoRouter(
   routes: [
     GoRoute(
         path: '/',
-        redirect: (context, state) {
+        redirect: (context, state) async{
           if (!hasAccount && !hasGuestCode) {
             return '/createAccount';
           }
-          if (hasWorkspace) {
-            return '/page';
-          }
+          if (!(await service.hasWorkspace())) {
+            createWorkspace();
+            createPage();
+          } 
+        return '/page';
         }),
     GoRoute(
         path: '/page',
