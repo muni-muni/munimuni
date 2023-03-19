@@ -33,7 +33,7 @@ class IsarService {
 
   Future<Workspace?> getWorkspace() async {
     final isar = await db;
-    final workspace = isar.workspaces.get(0);
+    final workspace = isar.workspaces.get(1);
     return workspace;
   }
 
