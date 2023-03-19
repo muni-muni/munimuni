@@ -1,6 +1,13 @@
 # munimuni
 
-A new Flutter project.
+
+
+# Goal
+1. To create a cross-platform notion alternative that has the simplicity and customizability of notion, mobile and ease of use of obsidian.
+
+# Steps to Install
+1. Clone repository
+2. Run Flutter (Hypothetically it's supposed to work. I have to update this if it actually isn't accurate)
 
 ## Getting Started
 
@@ -14,7 +21,3 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
-
-
-# Goal
-1. To create a cross-platform notion alternative that has the simplicity and customizability of notion, mobile and ease of use of obsidian.

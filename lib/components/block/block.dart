@@ -10,8 +10,6 @@ class Block extends StatefulWidget {
 class _BlockState extends State<Block> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child:Text("test")
-      );
+    return Container(child: Text("test"));
   }
 }

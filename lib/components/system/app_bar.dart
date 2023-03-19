@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({super.key});
 
@@ -13,13 +12,14 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
-      elevation:0,
+      elevation: 0,
       leading: IconButton(
-        icon:const Icon(Icons.menu_rounded,color: Colors.black,),
-        onPressed: () => {
-          Scaffold.of(context).openDrawer()
-        },
+        icon: const Icon(
+          Icons.menu_rounded,
+          color: Colors.black,
         ),
-      );
+        onPressed: () => {Scaffold.of(context).openDrawer()},
+      ),
+    );
   }
 }

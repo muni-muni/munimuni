@@ -6,7 +6,7 @@ class ErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body:Text("Error, Something wrong happened",style:TextStyle(fontSize:40))
-    );
+        body: Text("Error, Something wrong happened",
+            style: TextStyle(fontSize: 40)));
   }
 }

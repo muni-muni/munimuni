@@ -8,5 +8,5 @@ class Block {
   String? uid;
   String? title;
   String? blockType;
-  String? content; 
+  String? content;
 }

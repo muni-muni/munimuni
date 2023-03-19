@@ -39,7 +39,7 @@ final router = GoRouter(
             print("Workspace is Null");
             return '/error';
           }
-          
+
           return '/page';
         }),
     GoRoute(

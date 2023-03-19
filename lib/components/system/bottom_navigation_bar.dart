@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-
 class CustomBottomNavBar extends StatefulWidget {
   const CustomBottomNavBar({super.key});
 
@@ -17,22 +16,22 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
         icon: IconButton(
           icon: const Icon(Icons.home),
           onPressed: () => context.push('/'),
-        ), 
-        label: 'Home',
         ),
+        label: 'Home',
+      ),
       BottomNavigationBarItem(
         icon: IconButton(
           icon: const Icon(Icons.note_add_rounded),
           onPressed: () => context.push('/notes'),
-        ), 
-        label: 'Note',
         ),
+        label: 'Note',
+      ),
       BottomNavigationBarItem(
-        icon: IconButton(
-          icon: const Icon(Icons.checklist),
-          onPressed: () => context.push('/tasks'),
-        ), 
-        label: 'Tasks')
+          icon: IconButton(
+            icon: const Icon(Icons.checklist),
+            onPressed: () => context.push('/tasks'),
+          ),
+          label: 'Tasks')
     ]);
   }
 }
