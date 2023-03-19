@@ -39,6 +39,11 @@ final router = GoRouter(
             print("Workspace is Null");
             return '/error';
           }
+          final pages = workspace.pages;
+          if (pages.length == 0) {
+            print("No Page contained within Workspace");
+            return '/error';
+          }
 
           return '/page';
         }),
