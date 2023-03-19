@@ -31,6 +31,12 @@ class IsarService {
     print("Finished writing workspace");
   }
 
+  Future<Workspace?> getWorkspace() async {
+    final isar = await db;
+    final workspace = isar.workspaces.get(0);
+    return workspace;
+  }
+
   Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
       return await Isar.open(

@@ -1,7 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:munimuni/routes/error.dart';
 import 'package:munimuni/routes/pages/page.dart' as page;
-import 'package:munimuni/routes/workspaces/Workspace.dart';
+import 'package:munimuni/models/Workspace.dart';
 import 'package:munimuni/isar_service.dart';
 
 bool hasAccount = true;
@@ -11,6 +12,10 @@ final service = IsarService();
 void createWorkspace() async {
   await service.createWorkspace();
   print("Done creating workspace");
+}
+
+Future<Workspace?> getWorkspace() async {
+  return service.getWorkspace();
 }
 
 void createPage() {
@@ -28,10 +33,13 @@ final router = GoRouter(
           }
           if (!(await service.hasWorkspace())) {
             createWorkspace();
-            createPage();
-          } else {
-            print("Already has workspace");
           }
+          final workspace = await getWorkspace();
+          if (workspace == null) {
+            print("Workspace is Null");
+            return '/error';
+          }
+          
           return '/page';
         }),
     GoRoute(
@@ -44,11 +52,11 @@ final router = GoRouter(
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(opacity: animation, child: child))),
     GoRoute(
-        path: '/notes',
+        path: '/error',
         pageBuilder: (context, state) => CustomTransitionPage<void>(
             key: state.pageKey,
             restorationId: state.pageKey.value,
-            child: const page.PageView(),
+            child: const ErrorPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(opacity: animation, child: child))),
@@ -57,7 +65,7 @@ final router = GoRouter(
         pageBuilder: (context, state) => CustomTransitionPage<void>(
             key: state.pageKey,
             restorationId: state.pageKey.value,
-            child: const Workspace(),
+            child: page.PageView(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(opacity: animation, child: child))),
