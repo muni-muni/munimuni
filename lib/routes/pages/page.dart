@@ -23,17 +23,14 @@ class _PageViewState extends State<PageView> {
   // service.getBlocks(widget.pageId!);
 
   Future<List<modelBlock.Block?>?> getBlocksFromIsar() async {
-    setState(() {
-      _blocks = service.getBlocks(widget.pageId);
-    });
+    _blocks = await service.getBlocks(widget.pageId);
+    print("done");
   }
 
   @override
   void initState() {
+    getBlocksFromIsar();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getBlocksFromIsar();
-    });
   }
 
   Widget? getBlocks(List<modelBlock.Block?>? blocks) {
