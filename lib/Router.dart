@@ -28,8 +28,6 @@ final router = GoRouter(
     GoRoute(
         path: '/',
         redirect: (context, state) async {
-          
-          
           if (!hasAccount && !hasGuestCode) {
             return '/createAccount';
           }
@@ -54,35 +52,38 @@ final router = GoRouter(
           }
         }),
     GoRoute(
-        name: 'page',
-        path: '/page/:pageId',
-        pageBuilder: (context, state) => CustomTransitionPage<void>(
-            key: state.pageKey,
-            restorationId: state.pageKey.value,
-            child: page.PageView(
-              pageId:state.params['pageId'],
-            ),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) =>
-                    FadeTransition(opacity: animation, child: child))),
+      name: 'page',
+      path: '/page/:pageId',
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        restorationId: state.pageKey.value,
+        child: page.PageView(
+          pageId: state.params['pageId'],
+        ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeTransition(opacity: animation, child: child),
+      ),
+    ),
     GoRoute(
-        path: '/error',
-        pageBuilder: (context, state) => CustomTransitionPage<void>(
-            key: state.pageKey,
-            restorationId: state.pageKey.value,
-            child: const ErrorPage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) =>
-                    FadeTransition(opacity: animation, child: child))),
+      path: '/error',
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        restorationId: state.pageKey.value,
+        child: const ErrorPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeTransition(opacity: animation, child: child),
+      ),
+    ),
     GoRoute(
-        path: '/createAccount',
-        pageBuilder: (context, state) => CustomTransitionPage<void>(
-            key: state.pageKey,
-            restorationId: state.pageKey.value,
-            child: page.PageView(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) =>
-                    FadeTransition(opacity: animation, child: child))),
+      path: '/createAccount',
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        restorationId: state.pageKey.value,
+        child: page.PageView(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeTransition(opacity: animation, child: child),
+      ),
+    ),
   ],
 );
 
