@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:munimuni/routes/error.dart';
 import 'package:munimuni/routes/pages/page.dart' as page;
 import 'package:munimuni/models/Workspace.dart';
-import 'package:munimuni/isar_service.dart';
+import 'package:munimuni/isar/router.dart';
 
 bool hasAccount = true;
 bool hasGuestCode = true;
@@ -28,6 +28,8 @@ final router = GoRouter(
     GoRoute(
         path: '/',
         redirect: (context, state) async {
+          
+          
           if (!hasAccount && !hasGuestCode) {
             return '/createAccount';
           }

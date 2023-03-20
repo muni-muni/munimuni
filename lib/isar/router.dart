@@ -5,18 +5,27 @@ import 'package:isar/isar.dart';
 import 'package:munimuni/models/Block.dart';
 import 'package:munimuni/models/Page.dart';
 import 'package:munimuni/models/Workspace.dart';
+import 'package:munimuni/models/User.dart';
+
 
 const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 Random _rnd = Random();
 
-String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+String getRandomString(int length) {
+  String output = String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  return output;
+}
 
 class IsarService {
   late Future<Isar> db;
 
   IsarService() {
     db = openDB();
+  }
+  Future<bool> hasUser() async {
+    final isar = await db;
+    return await isar.users.count() > 0? true:false;
   }
   Future<bool> hasWorkspace() async {
     final isar = await db;
@@ -38,7 +47,7 @@ class IsarService {
       if (wpspace == null) {
         return;
       }
-      await wpspace.pages.add(page);
+      wpspace.pages.add(page);
       await wpspace.pages.save();
     });
   }
@@ -72,7 +81,6 @@ class IsarService {
         inspector: true,
       );
     }
-
     return Future.value(Isar.getInstance());
   }
 }
