@@ -10,5 +10,4 @@ class User {
   final workspaces = IsarLinks<Workspace>();
   final defaultWorkspace = IsarLink<Workspace>();
   final defaultPage = IsarLink<Page>();
-
 }

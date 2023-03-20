@@ -8,8 +8,12 @@ class Block extends StatefulWidget {
 }
 
 class _BlockState extends State<Block> {
+  TextEditingController etc = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text("test"));
+    return TextField(
+      controller: etc,
+    );
   }
 }

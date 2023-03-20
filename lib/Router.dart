@@ -43,11 +43,17 @@ final router = GoRouter(
           if (pages.isEmpty) {
             createPage(workspace);
           }
-          ;
-          return '/page';
+          var page = pages.first;
+          if (page.uid != null) {
+            final uid = page.uid ?? "";
+            return '/page/$uid';
+          } else {
+            return '/page';
+          }
         }),
     GoRoute(
-        path: '/page',
+        name: 'page',
+        path: '/page/:pageId',
         pageBuilder: (context, state) => CustomTransitionPage<void>(
             key: state.pageKey,
             restorationId: state.pageKey.value,
