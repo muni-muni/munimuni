@@ -3,16 +3,14 @@ import 'package:munimuni/components/block/block.dart';
 import 'package:munimuni/components/system/app_bar.dart';
 import 'package:munimuni/components/system/drawer_container.dart';
 
-class PageView extends StatefulWidget {
-  const PageView({super.key});
+class PageView extends StatelessWidget {
+  final String? pageId;
 
-  @override
-  State<PageView> createState() => _PageViewState();
-}
+  const PageView({super.key, this.pageId});
 
-class _PageViewState extends State<PageView> {
   @override
   Widget build(BuildContext context) {
+    print(this.pageId);
     return Scaffold(
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(48),

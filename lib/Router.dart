@@ -59,7 +59,9 @@ final router = GoRouter(
         pageBuilder: (context, state) => CustomTransitionPage<void>(
             key: state.pageKey,
             restorationId: state.pageKey.value,
-            child: const page.PageView(),
+            child: page.PageView(
+              pageId:state.params['pageId'],
+            ),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) =>
                     FadeTransition(opacity: animation, child: child))),
