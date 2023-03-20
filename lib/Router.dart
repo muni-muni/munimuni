@@ -18,8 +18,8 @@ Future<Workspace?> getWorkspace() async {
   return service.getWorkspace();
 }
 
-void createPage() {
-  print("will add page soon");
+void createPage(Workspace workspace) {
+  service.createPage(workspace);
 }
 
 // GoRouter configuration
@@ -34,17 +34,16 @@ final router = GoRouter(
           if (!(await service.hasWorkspace())) {
             createWorkspace();
           }
-          final workspace = await getWorkspace();
+          var workspace = await getWorkspace();
           if (workspace == null) {
             print("Workspace is Null");
             return '/error';
           }
-          final pages = workspace.pages;
-          if (pages.length == 0) {
-            print("No Page contained within Workspace");
-            return '/error';
+          var pages = workspace.pages;
+          if (pages.isEmpty) {
+            createPage(workspace);
           }
-
+          ;
           return '/page';
         }),
     GoRoute(

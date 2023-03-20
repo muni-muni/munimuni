@@ -1,10 +1,16 @@
 import 'dart:async';
-import 'dart:ffi';
+import 'dart:math';
 
 import 'package:isar/isar.dart';
 import 'package:munimuni/models/Block.dart';
 import 'package:munimuni/models/Page.dart';
 import 'package:munimuni/models/Workspace.dart';
+
+const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+Random _rnd = Random();
+
+String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
 class IsarService {
   late Future<Isar> db;
@@ -21,6 +27,22 @@ class IsarService {
     return Future.value(false);
   }
 
+  Future<void> createPage(Workspace workspace) async {
+    final isar = await db;
+    final page = Page()
+      ..title = "Title"
+      ..uid = getRandomString(6);
+    await isar.writeTxn(() async {
+      await isar.pages.putAll([page]);
+      var wpspace = await isar.workspaces.get(workspace.id);
+      if (wpspace == null) {
+        return;
+      }
+      await wpspace.pages.add(page);
+      await wpspace.pages.save();
+    });
+  }
+
   Future<void> createWorkspace() async {
     final isar = await db;
 
@@ -29,6 +51,12 @@ class IsarService {
       await isar.workspaces.putAll([workspace]);
     });
     print("Finished writing workspace");
+  }
+
+  Future<Page?> getPageId() async {
+    final isar = await db;
+    final page = isar.pages.get(1);
+    return page;
   }
 
   Future<Workspace?> getWorkspace() async {
