@@ -29,7 +29,7 @@ class IsarService {
     }
     final isar = await db;
     final page = await isar.pages.filter().uidMatches(pageId).findFirst();
-    if (page == null){
+    if (page == null) {
       return null;
     }
     if (page.blocks.toList().isEmpty) {
@@ -37,6 +37,28 @@ class IsarService {
     } else {
       return page.blocks.toList();
     }
+  }
+
+  Future<void> createBlock(String? pageId) async {
+    if (pageId == null) {
+      return Future.value(null);
+    }
+    final isar = await db;
+    final page = await isar.pages.filter().uidMatches(pageId).findFirst();
+    if (page == null) {
+      return;
+    }
+
+    final block = Block()
+      ..title = "Title"
+      ..content= "TEST CONTENT"
+      ..uid = getRandomString(6);
+    await isar.writeTxn(() async {
+      await isar.blocks.putAll([block]);
+
+      page.blocks.add(block);
+      await page.blocks.save();
+    });
   }
 
   Future<Isar> openDB() async {

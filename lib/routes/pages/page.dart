@@ -25,6 +25,7 @@ class _PageViewState extends State<PageView> {
   Future<List<modelBlock.Block?>?> getBlocksFromIsar() async {
     _blocks = await service.getBlocks(widget.pageId);
     print("done");
+    print(_blocks);
   }
 
   @override
@@ -38,7 +39,7 @@ class _PageViewState extends State<PageView> {
       return null;
     }
     return Column(
-      children: blocks.map((block) => Text("test")).toList(),
+      children: blocks.map((block) => Text(block?.content??"test")).toList(),
     );
   }
 
@@ -55,6 +56,12 @@ class _PageViewState extends State<PageView> {
         body: Column(
           children: [
             getBlocks(_blocks) ?? Text("No wdgets yet"),
+            IconButton(
+              icon: Icon(Icons.plus_one),
+              onPressed: () async {
+                await service.createBlock(widget.pageId);
+              },
+            )
           ],
         ));
   }
