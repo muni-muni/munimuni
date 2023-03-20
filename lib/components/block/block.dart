@@ -13,7 +13,12 @@ class _BlockState extends State<Block> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      minLines:1,
+      maxLines:500,
       controller: etc,
+      decoration:InputDecoration(
+        border:InputBorder.none,
+      )
     );
   }
 }
