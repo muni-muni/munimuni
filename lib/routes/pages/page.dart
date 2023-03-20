@@ -38,8 +38,11 @@ class _PageViewState extends State<PageView> {
     if (blocks == null) {
       return null;
     }
-    return Column(
-      children: blocks.map((block) => Text(block?.content??"test")).toList(),
+    return ListView.builder(
+      itemCount: blocks.length,
+      itemBuilder: (context, index) {
+        return Block();
+      },
     );
   }
 
@@ -55,11 +58,17 @@ class _PageViewState extends State<PageView> {
         ),
         body: Column(
           children: [
-            getBlocks(_blocks) ?? Text("No wdgets yet"),
+            Expanded(
+              child: getBlocks(_blocks) ?? Text("No wdgets yet"),
+            ),
             IconButton(
               icon: Icon(Icons.plus_one),
               onPressed: () async {
                 await service.createBlock(widget.pageId);
+                final temp = await service.getBlocks(widget.pageId);
+                setState(() {
+                  _blocks = temp;
+                });
               },
             )
           ],
