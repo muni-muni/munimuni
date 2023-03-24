@@ -19,13 +19,12 @@ class _PageViewState extends State<PageView> {
   final service = IsarService();
 
   List<modelBlock.Block?>? _blocks = [];
-  // Add value to blocks
-  // service.getBlocks(widget.pageId!);
 
   Future<List<modelBlock.Block?>?> getBlocksFromIsar() async {
-    _blocks = await service.getBlocks(widget.pageId);
-    print("done");
-    print(_blocks);
+    var temp = await service.getBlocks(widget.pageId);
+    setState(() {
+      _blocks = temp;
+    });
   }
 
   @override
@@ -41,7 +40,8 @@ class _PageViewState extends State<PageView> {
     return ListView.builder(
       itemCount: blocks.length,
       itemBuilder: (context, index) {
-        return Block();
+        return Block(
+            blockId: blocks[index]?.uid ?? "NULL", key: Key(index.toString()));
       },
     );
   }
